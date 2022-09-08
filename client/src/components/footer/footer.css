@@ -1,0 +1,39 @@
+.footer {
+  width: 100%;
+}
+
+ul li {
+  list-style: none;
+}
+.topMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #003580;
+}
+
+.topMenuLink {
+  margin-right: 20px;
+  color: white;
+  text-decoration: underline;
+}
+
+.bottomMenu {
+  display: flex;
+  justify-content: center;
+}
+
+.category {
+  padding: 30px;
+  color: #0071c2;
+}
+
+.categoryItem {
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+.footerText {
+  text-align: center;
+}

@@ -1,0 +1,41 @@
+.options {
+  position: static;
+  background-color: white;
+  color: grey;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+.optionItem {
+  padding: 0 20px;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  color: black;
+}
+
+.counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+
+.counterBtn {
+  height: 30px;
+  width: 30px;
+  border: 1px solid #0071c2;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counterBtn:disabled {
+  cursor: not-allowed;
+}

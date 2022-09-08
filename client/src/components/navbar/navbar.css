@@ -1,0 +1,32 @@
+.navbar {
+  height: 50px;
+  background-color: #003580;
+  display: flex;
+  justify-content: center;
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 1024px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 500;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.navItems {
+  display: flex;
+}
+
+.navButton {
+  margin-left: 20px;
+  height: 35px;
+  border: none;
+  padding: 10px;
+  color: #4582d9;
+}
