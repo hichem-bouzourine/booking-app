@@ -3,6 +3,10 @@ const router = express.Router();
 const { User, validateUser } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
+const verifyUser = require("../middleware/verifyUser");
+
 // Register a user
 router.post("/", async (req, res) => {
   // make sure that we receive a proper user, otherwise, we should not continue the process
@@ -27,17 +31,48 @@ router.post("/", async (req, res) => {
   );
 
   res
-    .cookie("access-token", token, { httpOnly: true })
+    .cookie("access_token", token, { httpOnly: true })
     .status(200)
     .send("Registration successful");
 });
 
-router.put("/id", async (req, res) => {});
+router.put("/:id", [auth, verifyUser], async (req, res) => {
+  const result = validateUser(req.body);
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
 
-router.delete("/id", async (req, res) => {});
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: req.body },
+    { new: true }
+  );
 
-router.get("/id", async (req, res) => {});
+  if (!user)
+    return res.status(404).send("User with the given ID could not be found.");
+  res.status(200).send(user);
+});
 
-router.get("/", async (req, res) => {});
+router.delete("/:id", [auth, verifyUser], async (req, res) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  if (!user)
+    return res.status(404).send("User with the given ID could not be found.");
+
+  res.status(200).send(req.params.id);
+});
+
+router.get("/:id", [auth, verifyUser], async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) return res.status(404).send("User not found.");
+
+  const { password, isAdmin, ...otherDetails } = user._doc;
+  res.send({ ...otherDetails });
+});
+
+router.get("/", [auth, admin], async (req, res) => {
+  const users = await User.find();
+
+  res.send(users);
+});
 
 module.exports = router;
