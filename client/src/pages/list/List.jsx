@@ -23,7 +23,11 @@ const List = () => {
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
 
-  const { data, loading, error } = useFetch(`/hotels/?city=${destination}`);
+  const { data, loading, error, reFetch } = useFetch(
+    !destination
+      ? `/hotels/?min=${min || 0}&max=${max || 999}`
+      : `/hotels/?city=${destination}&min=${min || 0}&max=${max || 999}`
+  );
 
   const handleIncrease = (name) => {
     setOptions((prev) => {
@@ -44,6 +48,10 @@ const List = () => {
     });
   };
 
+  const handleSearch = () => {
+    reFetch();
+  };
+
   return (
     <>
       <Header type="list" />
@@ -61,6 +69,7 @@ const List = () => {
                 name="destination"
                 id="destination"
                 placeholder={destination}
+                onChange={(e) => setDestination(e.target.value)}
               />
             </div>
             <div className="listSearchItem">
@@ -104,6 +113,7 @@ const List = () => {
                 <input
                   type="number"
                   onChange={(e) => setMin(e.target.value)}
+                  min="0"
                   className="priceInput"
                 />
               </div>
@@ -122,7 +132,9 @@ const List = () => {
               <input type="checkbox" name="work" id="work" />
               <label htmlFor="work">I'm travelling for work</label>
             </div>
-            <button className="searchButton">Search</button>
+            <button className="searchButton" onClick={handleSearch}>
+              Search
+            </button>
           </div>
           <div className="listResult">
             {loading ? (
