@@ -8,6 +8,7 @@ import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import Options from "../../components/options/Options";
 import SearchItem from "../../components/searchItem/SearchItem";
+import useFetch from "../../hooks/useFetch";
 
 const List = () => {
   const location = useLocation();
@@ -21,6 +22,8 @@ const List = () => {
 
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
+
+  const { data, loading, error } = useFetch(`/hotels/?city=${destination}`);
 
   const handleIncrease = (name) => {
     setOptions((prev) => {
@@ -122,8 +125,15 @@ const List = () => {
             <button className="searchButton">Search</button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
+            {loading ? (
+              "Loading, Please wait..."
+            ) : (
+              <>
+                {data.map((hotel) => (
+                  <SearchItem key={hotel._id} data={hotel} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

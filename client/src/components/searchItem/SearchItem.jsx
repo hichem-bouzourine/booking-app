@@ -1,26 +1,22 @@
+import { Link } from "react-router-dom";
 import "./searchItem.css";
 
-const SearchItem = () => {
+const SearchItem = ({ data: hotel }) => {
   return (
     <div className="searchItem">
       <div className="searchItemColumns">
         <div className="searchItemColumn">
-          <img
-            src="https://t-cf.bstatic.com/xdata/images/hotel/square200/296045459.webp?k=088ead47effd8efd25ac030c20d9b8e671e27150c4c673410e4854329566451f&o=&s=1"
-            alt=""
-          />
+          <img src={hotel.photos[0]} alt="" />
         </div>
 
         <div className="searchItemColumn">
-          <h1 className="title">Tower Street Apartments</h1>
-          <span className="distance">500m from center</span>
+          <h1 className="title">{hotel.name}</h1>
+          <span className="distance">{hotel.distance}m from center</span>
           <span className="taxiOp">Free airport taxi</span>
           <span className="subtitle">
             Studio Apartment with Air conditioning
           </span>
-          <span className="features">
-            Entire studio • 1 bathroom • 21m² 1 full bed
-          </span>
+          <span className="features">{hotel.desc}</span>
           <span className="cancelOp">Free cancellation </span>
           <span className="cancelOpSubtitle">
             You can cancel later, so lock in this great price today!
@@ -36,9 +32,11 @@ const SearchItem = () => {
             <div className="rate">6.3</div>
           </div>
           <div className="texts">
-            <span className="price">$112</span>
+            <span className="price">${hotel.cheapestPrice}</span>
             <span className="taxOp">Includes taxes and fees</span>
-            <button className="checkButton">See availability</button>
+            <Link to={`/hotels/${hotel._id}`}>
+              <button className="checkButton">See availability</button>
+            </Link>
           </div>
         </div>
       </div>
