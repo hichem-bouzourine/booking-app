@@ -16,6 +16,8 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Options from "../options/Options";
+import { useDispatch } from "react-redux";
+import { newSearch } from "../../redux/searchSlice";
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
@@ -55,8 +57,17 @@ const Header = ({ type }) => {
   };
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSearch = () => {
+    dispatch(
+      newSearch({
+        destination,
+        date,
+        options,
+      })
+    );
+
     navigate("/hotels", {
       state: {
         destination,
