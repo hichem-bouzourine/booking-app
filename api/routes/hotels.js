@@ -52,7 +52,7 @@ router.get("/", async (req, res) => {
 
   const hotels = await Hotel.find({
     ...others,
-    cheapestPrice: { $gte: min | 1, $lte: max | 1000 },
+    cheapestPrice: { $gte: min || 1, $lte: max || 999 },
   }).limit(req.query.limit);
 
   if (!hotels) return res.status(404).send("There are no hotels.");
