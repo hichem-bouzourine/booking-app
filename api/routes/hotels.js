@@ -38,7 +38,7 @@ router.delete("/:id", auth, async (req, res) => {
   res.status(200).send(req.params.id);
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", async (req, res) => {
   const hotel = await Hotel.findById(req.params.id);
 
   if (!hotel)
@@ -47,12 +47,41 @@ router.get("/:id", auth, async (req, res) => {
   res.send(hotel);
 });
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   const hotels = await Hotel.find();
 
   if (!hotels) return res.status(404).send("There are no hotels.");
 
   res.send(hotels);
+});
+
+// Get Hotel by "city name"
+router.get("/count/ByCity", async (req, res) => {
+  const cities = req.query.cities.split(",");
+
+  const list = await Promise.all(
+    cities.map((city) => {
+      return Hotel.countDocuments({ city: city });
+    })
+  );
+
+  if (!list) return res.status(404).send("There are no list.");
+
+  res.send(list);
+});
+
+router.get("/count/ByType", async (req, res) => {
+  const types = req.query.types.split(",");
+
+  const list = await Promise.all(
+    types.map((type) => {
+      return Hotel.countDocuments({ type: types });
+    })
+  );
+
+  if (!list) return res.status(404).send("There are no list.");
+
+  res.send(list);
 });
 
 module.exports = router;
