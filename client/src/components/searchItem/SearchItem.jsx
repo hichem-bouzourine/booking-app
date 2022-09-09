@@ -6,7 +6,11 @@ const SearchItem = ({ data: hotel }) => {
     <div className="searchItem">
       <div className="searchItemColumns">
         <div className="searchItemColumn">
-          <img src={hotel.photos[0]} alt="" />
+          <img
+            src={hotel.photos[0]}
+            alt=""
+            style={{ width: "200px", height: "200px" }}
+          />
         </div>
 
         <div className="searchItemColumn">
