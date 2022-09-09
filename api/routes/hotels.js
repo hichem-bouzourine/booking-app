@@ -48,7 +48,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const hotels = await Hotel.find();
+  const { min, max, ...others } = req.query;
+
+  const hotels = await Hotel.find({
+    ...others,
+    cheapestPrice: { $gte: min | 1, $lte: max | 1000 },
+  }).limit(req.query.limit);
 
   if (!hotels) return res.status(404).send("There are no hotels.");
 
@@ -70,6 +75,7 @@ router.get("/count/ByCity", async (req, res) => {
   res.send(list);
 });
 
+// Get Hotel by "Type"
 router.get("/count/ByType", async (req, res) => {
   const hotelCount = await Hotel.countDocuments({ type: "hotel" });
   const apartmentCount = await Hotel.countDocuments({ type: "apartment" });
