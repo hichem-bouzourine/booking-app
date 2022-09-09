@@ -71,17 +71,19 @@ router.get("/count/ByCity", async (req, res) => {
 });
 
 router.get("/count/ByType", async (req, res) => {
-  const types = req.query.types.split(",");
+  const hotelCount = await Hotel.countDocuments({ type: "hotel" });
+  const apartmentCount = await Hotel.countDocuments({ type: "apartment" });
+  const resortCount = await Hotel.countDocuments({ type: "resort" });
+  const villaCount = await Hotel.countDocuments({ type: "villa" });
+  const cabinCount = await Hotel.countDocuments({ type: "cabin" });
 
-  const list = await Promise.all(
-    types.map((type) => {
-      return Hotel.countDocuments({ type: types });
-    })
-  );
-
-  if (!list) return res.status(404).send("There are no list.");
-
-  res.send(list);
+  res.status(200).json([
+    { type: "hotels", count: hotelCount },
+    { type: "apartments", count: apartmentCount },
+    { type: "resorts", count: resortCount },
+    { type: "villas", count: villaCount },
+    { type: "cabins", count: cabinCount },
+  ]);
 });
 
 module.exports = router;
