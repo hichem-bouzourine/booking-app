@@ -19,6 +19,9 @@ const List = () => {
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState(location.state.options);
 
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
+
   const handleIncrease = (name) => {
     setOptions((prev) => {
       return {
@@ -89,6 +92,28 @@ const List = () => {
                   options={options}
                 />
               )}
+            </div>
+            <div className="listSearchPrices">
+              <div className="minPrice">
+                <span className="priceLabel">
+                  Min price <small>per night</small>
+                </span>
+                <input
+                  type="number"
+                  onChange={(e) => setMin(e.target.value)}
+                  className="priceInput"
+                />
+              </div>
+              <div className="maxPrice">
+                <span className="priceLabel">
+                  Max price <small>per night</small>
+                </span>
+                <input
+                  type="number"
+                  onChange={(e) => setMax(e.target.value)}
+                  className="priceInput"
+                />
+              </div>
             </div>
             <div className="listSearchWork">
               <input type="checkbox" name="work" id="work" />
