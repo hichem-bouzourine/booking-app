@@ -16,10 +16,12 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Options from "../options/Options";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { newSearch } from "../../redux/searchSlice";
 
 const Header = ({ type }) => {
+  const { user } = useSelector((state) => state.auth);
+
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
@@ -112,7 +114,7 @@ const Header = ({ type }) => {
             <p className="headerDescription">
               Search low prices on hotels, homes and much more...
             </p>
-            <button className="headerButton">Login/ Register</button>
+            {!user && <button className="headerButton">Login/ Register</button>}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerSearchIcon" />
