@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
   res
     .cookie("access_token", token, { httpOnly: true })
     .status(200)
-    .send({ ...otherDetails });
+    .send({ ...otherDetails, token });
 });
 
 function validate(req) {
